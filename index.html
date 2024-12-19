@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Найди одинаковые картинки — Поздравление с Новым годом</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Найди одинаковые картинки!</h1>
+        <div class="grid">
+            <img src="img1.jpg" alt="image1" class="card" data-pair="1">
+            <img src="img1.jpg" alt="image1" class="card" data-pair="1">
+            <img src="img2.jpg" alt="image2" class="card" data-pair="2">
+            <img src="img2.jpg" alt="image2" class="card" data-pair="2">
+            <img src="img3.jpg" alt="image3" class="card" data-pair="3">
+            <img src="img3.jpg" alt="image3" class="card" data-pair="3">
+        </div>
+        <button id="nextBtn" class="hidden">Что дальше?</button>
+        <p id="greeting" class="hidden">С Новым годом! Пусть каждый день будет полон радости и счастья!</p>
+    </div>
+       
+    <script>
+        let selectedCards = [];
+        let matchedPairs = 0;
+
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', function() {
+                if (selectedCards.length < 2 && !card.classList.contains('matched')) {
+                    card.classList.add('selected');
+                    selectedCards.push(card);
+
+                    if (selectedCards.length === 2) {
+                        if (selectedCards[0].dataset.pair === selectedCards[1].dataset.pair) {
+                            selectedCards.forEach(c => c.classList.add('matched'));
+                            matchedPairs++;
+                            selectedCards = [];
+                        } else {
+                            setTimeout(() => {
+                                selectedCards.forEach(c => c.classList.remove('selected'));
+                                selectedCards = [];
+                            }, 1000);
+                        }
+
+                        if (matchedPairs === 3) {
+                            document.getElementById('nextBtn').classList.remove('hidden');
+                        }
+                    }
+                }
+            });
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', function() {
+            document.getElementById('greeting').classList.remove('hidden');
+        });
+    </script>
+
+</body>
+</html>
